@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JAMB 2026 - Flexi Tutors</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: #4CAF50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: linear-gradient(to bottom right, #4CAF50, #388E3C);
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      animation: fadeIn 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    .countdown {
+      margin-top: 2rem;
+      font-size: 1.5rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .whatsapp-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25D366;
+      color: white;
+      border-radius: 50%;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      z-index: 999;
+    }
+
+    .whatsapp-button:hover {
+      background-color: #1ebe5b;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #333;
+      color: white;
+    }
+
+    a.button {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    a.button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Flexi Tutors - JAMB 2026 Preparation</h2>
+  </header>
+
+  <div class="hero">
+    <h1>Prepare for JAMB 2026 with Confidence</h1>
+    <div class="countdown" id="countdown">Loading countdown...</div>
+    <a href="simulator.html" class="button">Start CBT Simulator</a>
+  </div>
+
+  <div class="container">
+    <div class="section">
+      <h3>Testimonials</h3>
+      <p>Coming soon...</p>
+    </div>
+
+    <div class="section">
+      <h3>FAQs</h3>
+      <p>Coming soon...</p>
+    </div>
+
+    <div class="section">
+      <h3>Study Tips & Resources</h3>
+      <p>Coming soon...</p>
+    </div>
+
+    <div class="section">
+      <h3>Newsletter Signup</h3>
+      <p>Coming soon...</p>
+    </div>
+  </div>
+
+  <a href="https://wa.me/2349034159839" class="whatsapp-button" target="_blank" title="Chat with us on WhatsApp">
+    💬
+  </a>
+
+  <footer>
+    <p>&copy; 2025 Flexi Tutors. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const targetDate = new Date("2026-04-25T08:00:00").getTime();
+
+    const countdown = () => {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown").innerHTML = "JAMB 2026 has started!";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("countdown").innerHTML =
+        `${days}d ${hours}h ${minutes}m ${seconds}s remaining`;
+    };
+
+    setInterval(countdown, 1000);
+    countdown();
+  </script>
+</body>
+</html>
