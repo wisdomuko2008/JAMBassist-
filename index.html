@@ -2,107 +2,374 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JAMB 2026 | Flexi Tutors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jarvis - Flexi Tutors (Voice)</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background: #f3f3f3;
-      color: #333;
-      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #222;
     }
-    header {
-      background: #004aad;
-      color: white;
-      padding: 1em 0;
-    }
-    nav a {
-      color: white;
-      margin: 0 1em;
-      text-decoration: none;
-    }
-    .hero {
-      padding: 2em;
-    }
-    .countdown, .testimonials, .faq, .study-tips, .newsletter, .chat {
-      margin: 2em 0;
-      padding: 1em;
-      background: white;
+
+    #chat-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 50px auto 80px;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      background: white;
+      position: relative;
     }
-    .floating-help {
+
+    #chat-header {
+      background-color: #004d40;
+      color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #chat-header button {
+      font-size: 0.8rem;
+      margin-left: 6px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #chat-body {
+      display: flex;
+      flex-direction: column;
+      height: 460px;
+    }
+
+    #chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chat-input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+    }
+
+    #send-btn, #voice-btn {
+      padding: 10px 14px;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      background: #004d40;
+      color: white;
+    }
+
+    .message {
+      margin: 8px 0;
+      padding: 10px 14px;
+      border-radius: 18px;
+      max-width: 80%;
+      word-wrap: break-word;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .user-msg {
+      background-color: #00796b;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 0;
+    }
+
+    .bot-msg {
+      background-color: #eee;
+      align-self: flex-start;
+      border-bottom-left-radius: 0;
+    }
+
+    .typing {
+      font-style: italic;
+      opacity: 0.7;
+    }
+
+    .typing::after {
+      content: "";
+      display: inline-block;
+      width: 1em;
+      animation: dots 1s steps(3, end) infinite;
+    }
+
+    @keyframes dots {
+      0% { content: ""; }
+      33% { content: "."; }
+      66% { content: ".."; }
+      100% { content: "..."; }
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background-image: url('https://i.imgur.com/qMCv2Zc.png');
+      background-size: cover;
+    }
+
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 5px;
+    }
+
+    .quick-reply {
+      background: #004d40;
+      color: white;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .quick-reply:hover {
+      background: #00695c;
+    }
+
+    body.dark-mode {
+      background-color: #121212;
+      color: #eee;
+    }
+
+    body.dark-mode #chat-container {
+      background-color: #1e1e1e;
+      color: #ccc;
+    }
+
+    body.dark-mode .bot-msg {
+      background-color: #333;
+    }
+
+    body.dark-mode .user-msg {
+      background-color: #009688;
+    }
+
+    #whatsapp-float {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #004aad;
+      background: #25D366;
       color: white;
-      padding: 1em;
+      font-size: 22px;
+      border: none;
       border-radius: 50%;
-      font-size: 20px;
-      text-decoration: none;
+      width: 55px;
+      height: 55px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      cursor: pointer;
+    }
+
+    #whatsapp-float:hover {
+      background: #1ebc59;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Flexi Tutors - JAMB 2026</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="simulator.html">Simulator</a>
-      <a href="login.html">Login</a>
-      <a href="signup.html">Sign Up</a>
-    </nav>
-  </header>
-  <div class="hero">
-    <h2>Get Ready for JAMB 2026!</h2>
-    <div class="countdown">
-      <h3>Countdown to Exam:</h3>
-      <p id="timer">Loading...</p>
+  <div id="chat-container">
+    <div id="chat-header">
+      <h2>Jarvis - Flexi Tutors</h2>
+      <div>
+        <button onclick="toggleDarkMode()">🌓</button>
+        <button onclick="clearChat()">🗑 Clear</button>
+        <button onclick="closeJarvis()">❌ Close</button>
+      </div>
     </div>
-    <div class="testimonials">
-      <h3>What Our Students Say</h3>
-      <p>⭐⭐⭐⭐⭐ “Flexi Tutors helped me score 310 in JAMB!” - Joy U.</p>
-    </div>
-    <div class="faq">
-      <h3>FAQs</h3>
-      <p><strong>Q:</strong> Is this free? <br><strong>A:</strong> Yes, 100% free!</p>
-    </div>
-    <div class="study-tips">
-      <h3>Study Tips</h3>
-      <p>Revise past questions, take mock tests and follow a schedule.</p>
-    </div>
-    <div class="newsletter">
-      <h3>Subscribe to Updates</h3>
-      <input type="email" placeholder="Enter your email" />
-      <button>Subscribe</button>
-    </div>
-    <div class="chat">
-      <h3>Need Help?</h3>
-      <p>Reach us anytime via the live chat below.</p>
+    <div id="chat-body">
+      <div id="chat-messages"></div>
+      <div id="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Ask a question..." />
+        <button id="voice-btn" onclick="startListening()">🎤</button>
+        <button id="send-btn" onclick="sendMessage()">➤</button>
+      </div>
     </div>
   </div>
-  <a class="floating-help" href="#">?</a>
+
+  <button id="whatsapp-float" onclick="window.open('https://wa.me/2347051768946','_blank')"><img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png" alt="WhatsApp Icon"/></button>
+
+  <audio id="notify-sound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" preload="auto"></audio>
+
   <script>
-    const timerElement = document.getElementById("timer");
-    const targetDate = new Date("April 19, 2026 08:00:00").getTime();
-    setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-      if (distance < 0) {
-        timerElement.innerHTML = "Exam time!";
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const notifySound = document.getElementById('notify-sound');
+
+    function appendMessage(text, className, isBot = false, suggestions = []) {
+      const msg = document.createElement('div');
+      msg.className = 'message ' + className;
+
+      if (isBot) {
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        msg.appendChild(avatar);
+      }
+
+      const span = document.createElement('span');
+      span.textContent = text;
+      msg.appendChild(span);
+
+      if (isBot && suggestions.length > 0) {
+        const quickContainer = document.createElement('div');
+        quickContainer.className = 'quick-replies';
+        suggestions.forEach(q => {
+          const btn = document.createElement('div');
+          btn.className = 'quick-reply';
+          btn.textContent = q;
+          btn.onclick = () => {
+            chatInput.value = q;
+            sendMessage();
+          };
+          quickContainer.appendChild(btn);
+        });
+        msg.appendChild(quickContainer);
+      }
+
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      if (isBot) notifySound.play();
+    }
+
+    function appendTypingIndicator() {
+      const typing = document.createElement('div');
+      typing.className = 'message bot-msg typing';
+      typing.textContent = 'Jarvis is typing';
+      typing.setAttribute('id', 'typing-indicator');
+      chatMessages.appendChild(typing);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const typing = document.getElementById('typing-indicator');
+      if (typing) typing.remove();
+    }
+
+    function preloadWelcomeMessage() {
+      appendMessage("Hi! I'm Jarvis from Flexi Tutors. Ask me anything about WAEC, JAMB or admissions.", 'bot-msg', true, [
+        "Is WAEC result out?",
+        "How can I contact Flexi Tutors?", 
+        "Have 2025 GCE started?",
+        "Who are you?",
+      ]);
+      speak("Hi! I'm Jarvis from Flexi Tutors. Ask me anything about WAEC, JAMB or admissions.");
+    }
+
+    function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+      appendMessage(message, 'user-msg');
+      chatInput.value = '';
+
+      appendTypingIndicator();
+
+      setTimeout(() => {
+        removeTypingIndicator();
+        let reply = "Sorry, I don't have an answer for that yet. Kindly chat us on WhatsApp: +2347051768946";
+        let suggestions = [];
+        const lower = message.toLowerCase();
+
+        if (lower.includes('result') && lower.includes('waec')) {
+          reply = "Yes, the WAEC 2025 result is out.";
+          suggestions = ["What is the official WAEC website?", "Can I get a hard copy result?"];
+        } else if (lower.includes('admission') || lower.includes('registration')) {
+          reply = "Yes, registration into higher institutions is currently ongoing.";
+          suggestions = ["How can I apply?", "Which schools are open now?"];
+        } else if (lower.includes('hi') || lower.includes('hello')) {
+          reply = "Hello! I'm Jarvis. How can I assist you?";
+          suggestions = ["Is WAEC result out?", "How can I reach you?", "Tell me about JAMB 2026"];
+        } else if (lower.includes('contact') || lower.includes('whatsapp')) {
+          reply = "You can chat with us directly via WhatsApp: +2347051768946";
+        } else if (lower.includes('jamb') || lower.includes('2026')) {
+          reply = "Preparation for JAMB 2026 is ongoing. Need past questions or study tips?";
+          suggestions = ["Give me JAMB study tips", "When is JAMB 2026 exam?"];
+        } else if (lower.includes('gce') || lower.includes('2025')) {
+          reply = "GCE registration is currently ongoing. Would you like me to give you more tips on WAEC GCE or NECO GCE. Kindly chat us on WhatsApp: +2347051768946"
+        } else if (lower.includes('who') || lower.includes('you')) {
+          reply = "I am Jarvis from Flexi Tutors, I help in basic informations concerning exams like WAEC, JAMB, NECO, that you will need to know. For more enquires Contact the admin @ 09034159839 or kindly chat us on WhatsApp: 07051768946"
+        }
+
+        appendMessage(reply, 'bot-msg', true, suggestions);
+        speak(reply);
+      }, 1200);
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function clearChat() {
+      chatMessages.innerHTML = '';
+      preloadWelcomeMessage();
+    }
+
+    function closeJarvis() {
+     document.body.classlist.toggle
+      
+    }
+    function speak(text) {
+      const synth = window.speechSynthesis;
+      const utter = new SpeechSynthesisUtterance(text);
+      synth.speak(utter);
+    }
+
+    function startListening() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Sorry, your browser doesn't support voice recognition.");
         return;
       }
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const secs = Math.floor((distance % (1000 * 60)) / 1000);
-      timerElement.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
-    }, 1000);
+
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        chatInput.value = transcript;
+        sendMessage();
+      };
+
+      recognition.onerror = function(event) {
+        alert("Voice recognition error: " + event.error);
+      };
+    }
+
+    window.onload = preloadWelcomeMessage;
   </script>
 </body>
 </html>
